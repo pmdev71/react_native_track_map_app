@@ -21,8 +21,11 @@ const signup = dispatch => {
       dispatch({type: 'signup', payload: response.data.token});
       return response.data.token;
     } catch (err) {
-      dispatch({type: 'add_error', payload: err.message});
-      console.log(err.message);
+      dispatch({
+        type: 'add_error',
+        payload: 'Something went wrong with sign up',
+      });
+      //   console.log(err.message);
     }
   };
 };
@@ -87,5 +90,5 @@ const signout = dispatch => {
 export const {Provider, Context} = createDataContext(
   authReducer,
   {signin, signup, signout},
-  {isSignedIn: false},
+  {isSignedIn: false, errorMessage: ''},
 );

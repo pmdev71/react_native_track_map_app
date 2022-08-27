@@ -22,6 +22,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
 
+  // console.log(state);
   return (
     <Center w="100%">
       <Box safeArea p="2" mt="20%" w="90%" maxW="290" py="8">
@@ -75,6 +76,9 @@ const SignupScreen = () => {
               onChangeText={e => setConPassword(e)}
             />
           </FormControl>
+          {state.errorMessage ? (
+            <Text color="red.500">{state.errorMessage}</Text>
+          ) : null}
           <Button
             mt="2"
             colorScheme="indigo"
