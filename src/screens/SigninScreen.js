@@ -51,11 +51,23 @@ const SigninScreen = () => {
         <VStack space={3} mt="5">
           <FormControl>
             <FormControl.Label>Email ID</FormControl.Label>
-            <Input type="email" onChangeText={e => setEmail(e)} />
+            <Input
+              type="email"
+              value={email}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={e => setEmail(e)}
+            />
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" onChangeText={e => setPassword(e)} />
+            <Input
+              type="password"
+              value={password}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={e => setPassword(e)}
+            />
             <Link
               _text={{
                 fontSize: 'xs',

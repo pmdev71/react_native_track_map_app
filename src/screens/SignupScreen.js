@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {Context as AuthContext} from '../context/AuthContext';
 import {
   Text,
   Box,
@@ -15,6 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 const SignupScreen = () => {
+  const {state, signup} = useContext(AuthContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,17 +47,38 @@ const SignupScreen = () => {
         <VStack space={3} mt="5">
           <FormControl>
             <FormControl.Label>Email</FormControl.Label>
-            <Input type="email" onChangeText={e => setEmail(e)} />
+            <Input
+              type="email"
+              value={email}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={e => setEmail(e)}
+            />
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" onChangeText={e => setPassword(e)} />
+            <Input
+              type="password"
+              value={password}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={e => setPassword(e)}
+            />
           </FormControl>
           <FormControl>
             <FormControl.Label>Confirm Password</FormControl.Label>
-            <Input type="password" onChangeText={e => setConPassword(e)} />
+            <Input
+              type="password"
+              value={conPassword}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={e => setConPassword(e)}
+            />
           </FormControl>
-          <Button mt="2" colorScheme="indigo">
+          <Button
+            mt="2"
+            colorScheme="indigo"
+            onPress={() => signup({email, password})}>
             Sign up
           </Button>
           <HStack mt="6" justifyContent="center">
