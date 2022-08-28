@@ -1,5 +1,4 @@
 import React from 'react';
-import IonicIcons from 'react-native-vector-icons/Ionicons';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
