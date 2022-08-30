@@ -1,5 +1,5 @@
-import React, {useState, useContext} from 'react';
-import {Context as AuthContext} from '../context/AuthContext';
+import React, {useState} from 'react';
+
 import {
   Text,
   Box,
@@ -14,15 +14,33 @@ import {
 } from 'native-base';
 
 import {useNavigation} from '@react-navigation/native';
+import baseApi from '../api/baseApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = () => {
-  const {state, signup} = useContext(AuthContext);
+  // const {state, signup} = useContext(AuthContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // console.log(state);
+  const handleSignup = async (email, password) => {
+    try {
+      const response = await baseApi.post('/signup', {email, password});
+      //console.log(response.data);
+      await AsyncStorage.setItem('token', response.data.token);
+      const token = await AsyncStorage.getItem('token');
+      console.log(token);
+      navigation.navigate('BottomNavigator');
+      //dispatch({type: 'signup', payload: response.data.token});
+      return response.data.token;
+    } catch (err) {
+      console.log(err.message, 'Something went wrong with sign up');
+      setErrorMessage('Something went wrong with sign up', err.message);
+    }
+  };
+
   return (
     <Center w="100%">
       <Box safeArea p="2" mt="20%" w="90%" maxW="290" py="8">
@@ -76,13 +94,11 @@ const SignupScreen = () => {
               onChangeText={e => setConPassword(e)}
             />
           </FormControl>
-          {state.errorMessage ? (
-            <Text color="red.500">{state.errorMessage}</Text>
-          ) : null}
+          {setErrorMessage ? <Text color="red.500">{errorMessage}</Text> : null}
           <Button
             mt="2"
             colorScheme="indigo"
-            onPress={() => signup({email, password})}>
+            onPress={() => handleSignup(email, password)}>
             Sign up
           </Button>
           <HStack mt="6" justifyContent="center">

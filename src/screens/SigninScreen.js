@@ -1,6 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {
+  Text,
   Box,
   Button,
   Center,
@@ -12,11 +13,30 @@ import {
   VStack,
 } from 'native-base';
 import {useNavigation} from '@react-navigation/native';
+import baseApi from '../api/baseApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SigninScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSignin = async (email, password) => {
+    try {
+      const response = await baseApi.post('/signin', {email, password});
+      //console.log(response.data);
+      await AsyncStorage.setItem('token', response.data.token);
+      const token = await AsyncStorage.getItem('token');
+      console.log(token);
+      navigation.navigate('BottomNavigator');
+
+      return response.data.token;
+    } catch (err) {
+      console.log(err.message, 'Something went wrong with sign in');
+      setErrorMessage('Something went wrong with sign in', err.message);
+    }
+  };
 
   return (
     <Center w="100%">
@@ -80,15 +100,11 @@ const SigninScreen = () => {
               Forget Password?
             </Link>
           </FormControl>
+          {setErrorMessage ? <Text color="red.500">{errorMessage}</Text> : null}
           <Button
             mt="2"
             colorScheme="indigo"
-            onPress={() =>
-              navigation.navigate('BottomNavigator', {
-                email: email,
-                password: password,
-              })
-            }>
+            onPress={() => handleSignin(email, password)}>
             Sign in
           </Button>
           <HStack mt="6" justifyContent="center">

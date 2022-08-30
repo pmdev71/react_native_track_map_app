@@ -20,10 +20,10 @@ const signup = dispatch => {
       const response = await baseApi.post('/signup', {email, password});
       //console.log(response.data);
       await AsyncStorage.setItem('token', response.data.token);
-      //   const token = await AsyncStorage.getItem('token');
-      //   console.log(token);
+      const token = await AsyncStorage.getItem('token');
+      console.log(token);
+      //dispatch({type: 'signup', payload: response.data.token});
 
-      dispatch({type: 'signup', payload: response.data.token});
       return response.data.token;
     } catch (err) {
       dispatch({

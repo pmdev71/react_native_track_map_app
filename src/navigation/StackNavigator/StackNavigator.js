@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   const [showSplash, setShowSplash] = React.useState(true);
-  const [isSignedIn, setIsSignedIn] = React.useState(true);
+  const [isSignedIn, setIsSignedIn] = React.useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -23,7 +23,7 @@ const StackNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {showSplash ? (
+        {/* {showSplash ? (
           <Stack.Screen
             name="SplashScreen"
             component={SplashScreen}
@@ -41,21 +41,19 @@ const StackNavigator = () => {
             component={SigninScreen}
             options={{headerShown: false}}
           />
-        )}
-
-        {/* {isSignedIn ? (
-          <Stack.Screen
-            name="SigninScreen"
-            component={SigninScreen}
-            options={{headerShown: false}}
-          />
-        ) : (
-          <Stack.Screen
-            name="BottomNavigator"
-            component={BottomNavigator}
-            options={{headerShown: false}}
-          />
         )} */}
+
+        <Stack.Screen
+          name="SigninScreen"
+          component={SigninScreen}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="BottomNavigator"
+          component={BottomNavigator}
+          options={{headerShown: false}}
+        />
 
         <Stack.Screen
           name="SignupScreen"
