@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   Box,
@@ -33,18 +33,33 @@ const SigninScreen = () => {
   }, []);
 
   const handleSignin = async (email, password) => {
-    try {
-      const response = await baseApi.post('/signin', {email, password});
-      //console.log(response.data);
-      await AsyncStorage.setItem('token', response.data.token);
-      const token = await AsyncStorage.getItem('token');
-      //console.log(token);
-      navigation.navigate('BottomNavigator');
+    if (email === '' || email.length < 10) {
+      setErrorMessage('Please enter a valid email address');
+      return;
+    } else if (password.length < 8) {
+      setErrorMessage('Password must be at least 8 characters!');
+      return;
+    } else {
+      try {
+        const response = await baseApi.post('/signin', {email, password});
 
-      return response.data.token;
-    } catch (err) {
-      console.log(err.message, 'Something went wrong with sign in');
-      setErrorMessage('Something went wrong with sign in', err.message);
+        await AsyncStorage.setItem('token', response.data.token);
+        await AsyncStorage.setItem(
+          'user',
+          JSON.stringify({
+            user: response.data.user,
+            // _id: response.data.user._id,
+            // email: response.data.user.email,
+            // balance: response.data.user.balance,
+            // createdAt: response.data.user.createdAt,
+          }),
+        );
+        navigation.navigate('BottomNavigator');
+
+        return response.data.token;
+      } catch (err) {
+        setErrorMessage('Something went wrong with sign in!');
+      }
     }
   };
 

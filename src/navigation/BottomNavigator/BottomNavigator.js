@@ -8,56 +8,55 @@ const Tab = createMaterialBottomTabNavigator();
 import TrackListScreen from '../../screens/TrackListScreen';
 import TrckCreateScreen from '../../screens/TrackCreateScreen';
 import AccountScreen from '../../screens/AccountScreen';
+import {UserAuthContextProvider} from '../../context/UserAuthContext';
 
 export default function HomeScreen() {
   return (
-    <Tab.Navigator shifting={true}>
-      <Tab.Screen
-        name="TrackListScreen"
-        component={TrackListScreen}
-        options={{
-          tabBarIcon: () => (
-            <IconMaterialCommunityIcons
-              name="view-list"
-              color="white"
-              size={22}
-            />
-          ),
-          tabBarColor: 'blue',
-        }}
-      />
-      <Tab.Screen
-        name="TrckCreateScreen"
-        component={TrckCreateScreen}
-        options={{
-          tabBarIcon: () => (
-            <IconMaterialCommunityIcons
-              name="map-marker-plus-outline"
-              color="white"
-              size={22}
-            />
-          ),
-          tabBarColor: 'purple',
-        }}
-      />
-      <Tab.Screen
-        name="AccountScreen"
-        component={AccountScreen}
-        options={{
-          tabBarIcon: () => (
-            <IconMaterialCommunityIcons
-              name="account"
-              color="white"
-              size={22}
-            />
-          ),
-          tabBarColor: 'green',
-        }}
-      />
-    </Tab.Navigator>
+    <UserAuthContextProvider>
+      <Tab.Navigator shifting={true}>
+        <Tab.Screen
+          name="TrackListScreen"
+          component={TrackListScreen}
+          options={{
+            tabBarIcon: () => (
+              <IconMaterialCommunityIcons
+                name="view-list"
+                color="white"
+                size={22}
+              />
+            ),
+            tabBarColor: 'blue',
+          }}
+        />
+        <Tab.Screen
+          name="TrckCreateScreen"
+          component={TrckCreateScreen}
+          options={{
+            tabBarIcon: () => (
+              <IconMaterialCommunityIcons
+                name="map-marker-plus-outline"
+                color="white"
+                size={22}
+              />
+            ),
+            tabBarColor: 'purple',
+          }}
+        />
+        <Tab.Screen
+          name="AccountScreen"
+          component={AccountScreen}
+          options={{
+            tabBarIcon: () => (
+              <IconMaterialCommunityIcons
+                name="account"
+                color="white"
+                size={22}
+              />
+            ),
+            tabBarColor: 'green',
+          }}
+        />
+      </Tab.Navigator>
+    </UserAuthContextProvider>
   );
 }
-
-// const IconContainer = props => {
-//   return <IonicIcons name={props.name} size={20} color={'#fff'} />;
-// };

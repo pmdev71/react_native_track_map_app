@@ -13,13 +13,11 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   const [showSplash, setShowSplash] = React.useState(true);
-  const [isSignedIn, setIsSignedIn] = React.useState(false);
 
   const handleAsyncStorage = async () => {
     const token = await AsyncStorage.getItem('token');
     if (token) {
-      console.log('Token :', token);
-      setIsSignedIn(false);
+      console.log('Token from StackNavigator :', token);
     } else {
       console.log("Token doesn't exist");
     }

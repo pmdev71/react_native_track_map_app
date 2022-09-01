@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {
   Text,
   Box,
@@ -25,19 +24,37 @@ const SignupScreen = () => {
   const [conPassword, setConPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSignup = async (email, password) => {
-    try {
-      const response = await baseApi.post('/signup', {email, password});
-      console.log(response.data);
-      await AsyncStorage.setItem('token', response.data.token);
-      const token = await AsyncStorage.getItem('token');
-      console.log(token);
-      navigation.navigate('BottomNavigator');
-      //dispatch({type: 'signup', payload: response.data.token});
-      return response.data.token;
-    } catch (err) {
-      console.log(err.message, 'Something went wrong with sign up');
-      setErrorMessage('Something went wrong with sign up', err.message);
+  const handleSignup = async (email, password, conPassword) => {
+    if (email === '' || email.length < 10) {
+      setErrorMessage('Please enter a valid email address');
+      return;
+    } else if (password !== conPassword) {
+      setErrorMessage('Passwords and Confirm password not match!');
+      return;
+    } else if (password.length < 8 || conPassword.length < 8) {
+      setErrorMessage('Password must be at least 8 characters!');
+      return;
+    } else {
+      try {
+        const response = await baseApi.post('/signup', {email, password});
+        console.log(response.data);
+        await AsyncStorage.setItem('token', response.data.token);
+
+        await AsyncStorage.setItem(
+          'user',
+          JSON.stringify({
+            user: response.data.user,
+            // _id: response.data.user._id,
+            // email: response.data.user.email,
+            // balance: response.data.user.balance,
+            // createdAt: response.data.user.createdAt,
+          }),
+        );
+        navigation.navigate('BottomNavigator');
+        return response.data.token;
+      } catch (err) {
+        setErrorMessage('Something went wrong with sign up!');
+      }
     }
   };
 
@@ -98,7 +115,7 @@ const SignupScreen = () => {
           <Button
             mt="2"
             colorScheme="indigo"
-            onPress={() => handleSignup(email, password)}>
+            onPress={() => handleSignup(email, password, conPassword)}>
             Sign up
           </Button>
           <HStack mt="6" justifyContent="center">

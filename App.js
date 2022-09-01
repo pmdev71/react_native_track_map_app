@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import StackNavigator from './src/navigation/StackNavigator/StackNavigator';
 import OneSignal from 'react-native-onesignal';
 import {NativeBaseProvider} from 'native-base';
-import {UserAuthContextProvider} from './src/context/UserAuthContext';
+// import {UserAuthContextProvider} from './src/context/UserAuthContext';
 
 const App = () => {
   useEffect(() => {
@@ -22,10 +22,12 @@ const App = () => {
   );
 };
 
-export default () => {
-  return (
-    <UserAuthContextProvider>
-      <App />
-    </UserAuthContextProvider>
-  );
-};
+export default App;
+
+// export default () => {
+//   return (
+//      <UserAuthContextProvider>
+//       <App />
+//      </UserAuthContextProvider>
+//   );
+// };

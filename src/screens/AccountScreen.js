@@ -1,12 +1,20 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import React, {useContext} from 'react';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {UserAuthContext} from '../context/UserAuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const AccountScreen = () => {
-  const token = useContext(UserAuthContext);
-  console.log('FROM ACCOUNT SCREEN :', token);
+  const navigation = useNavigation();
+  const {textToken, user} = useContext(UserAuthContext);
+  //console.log('From Account Screen :', textToken);
+
+  const logoutHandler = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate('SigninScreen');
+  };
 
   return (
     <View style={styles.container}>
@@ -19,9 +27,11 @@ const AccountScreen = () => {
             }}
           />
           <View>
-            <Text style={styles.nameText}>Darlene Robertson</Text>
-            <Text style={styles.normalText}>Senior UX Designer</Text>
-            <Text style={styles.normalText}>ID:43178</Text>
+            <Text style={styles.nameText}>{user.user.email}</Text>
+            <Text style={styles.normalText}>
+              Balance: {user.user.balance} Taka{' '}
+            </Text>
+            <Text style={styles.normalText}>ID:{user.user._id}</Text>
           </View>
         </View>
 
@@ -89,7 +99,15 @@ const AccountScreen = () => {
           </View>
         </View>
       </View>
-      <Text>Token: {token._W} </Text>
+      <Text>ID: {user.user._id} </Text>
+      <Text>Member Since: {user.user.createdAt} </Text>
+      <Text>Token : {textToken} </Text>
+      <Button
+        onPress={logoutHandler}
+        title="Logout"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
     </View>
   );
 };
