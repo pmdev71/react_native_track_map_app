@@ -7,12 +7,24 @@ import SigninScreen from '../../screens/SigninScreen';
 import SignupScreen from '../../screens/SignupScreen';
 import ForgotPasswordScreen from '../../screens/ForgotPasswordScreen';
 import SplashScreen from '../../screens/SplashScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   const [showSplash, setShowSplash] = React.useState(true);
   const [isSignedIn, setIsSignedIn] = React.useState(false);
+
+  const handleAsyncStorage = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      console.log('Token :', token);
+      setIsSignedIn(false);
+    } else {
+      console.log("Token doesn't exist");
+    }
+  };
+  handleAsyncStorage();
 
   useEffect(() => {
     setTimeout(() => {
@@ -23,25 +35,13 @@ const StackNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* {showSplash ? (
+        {showSplash && (
           <Stack.Screen
             name="SplashScreen"
             component={SplashScreen}
             options={{headerShown: false}}
           />
-        ) : isSignedIn ? (
-          <Stack.Screen
-            name="BottomNavigator"
-            component={BottomNavigator}
-            options={{headerShown: false}}
-          />
-        ) : (
-          <Stack.Screen
-            name="SigninScreen"
-            component={SigninScreen}
-            options={{headerShown: false}}
-          />
-        )} */}
+        )}
 
         <Stack.Screen
           name="SigninScreen"
@@ -54,6 +54,18 @@ const StackNavigator = () => {
           component={BottomNavigator}
           options={{headerShown: false}}
         />
+
+        {/* <Stack.Screen
+          name="SigninScreen"
+          component={SigninScreen}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="BottomNavigator"
+          component={BottomNavigator}
+          options={{headerShown: false}}
+        /> */}
 
         <Stack.Screen
           name="SignupScreen"

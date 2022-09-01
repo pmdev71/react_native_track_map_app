@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Text,
   Box,
@@ -22,13 +22,23 @@ const SigninScreen = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  useEffect(() => {
+    const handleAsyncStorage = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        navigation.navigate('BottomNavigator');
+      }
+    };
+    handleAsyncStorage();
+  }, []);
+
   const handleSignin = async (email, password) => {
     try {
       const response = await baseApi.post('/signin', {email, password});
       //console.log(response.data);
       await AsyncStorage.setItem('token', response.data.token);
       const token = await AsyncStorage.getItem('token');
-      console.log(token);
+      //console.log(token);
       navigation.navigate('BottomNavigator');
 
       return response.data.token;
