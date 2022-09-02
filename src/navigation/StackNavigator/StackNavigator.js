@@ -8,6 +8,7 @@ import SignupScreen from '../../screens/SignupScreen';
 import ForgotPasswordScreen from '../../screens/ForgotPasswordScreen';
 import SplashScreen from '../../screens/SplashScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DetailsPackageScreen from '../../screens/DetailsPackageScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,12 @@ const StackNavigator = () => {
         <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="DetailsPackageScreen"
+          component={DetailsPackageScreen}
           options={{headerShown: false}}
         />
 

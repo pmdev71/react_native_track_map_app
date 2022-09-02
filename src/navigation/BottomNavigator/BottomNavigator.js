@@ -9,14 +9,16 @@ import TrackListScreen from '../../screens/TrackListScreen';
 import TrckCreateScreen from '../../screens/TrackCreateScreen';
 import AccountScreen from '../../screens/AccountScreen';
 import {UserAuthContextProvider} from '../../context/UserAuthContext';
+import PackageList from '../../screens/PackageList';
+import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
 
 export default function HomeScreen() {
   return (
     <UserAuthContextProvider>
       <Tab.Navigator shifting={true}>
         <Tab.Screen
-          name="TrackListScreen"
-          component={TrackListScreen}
+          name="PackageList"
+          component={PackageList}
           options={{
             tabBarIcon: () => (
               <IconMaterialCommunityIcons
@@ -29,8 +31,8 @@ export default function HomeScreen() {
           }}
         />
         <Tab.Screen
-          name="TrckCreateScreen"
-          component={TrckCreateScreen}
+          name="OrderHistoryScreen"
+          component={OrderHistoryScreen}
           options={{
             tabBarIcon: () => (
               <IconMaterialCommunityIcons
