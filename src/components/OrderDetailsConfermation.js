@@ -25,8 +25,9 @@ const OrderDetailsConfermation = ({
             If everything is correct, press confirm to proceed.
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              mt={2}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -52,8 +53,8 @@ const OrderDetailsConfermation = ({
             </HStack>
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -79,8 +80,8 @@ const OrderDetailsConfermation = ({
             </HStack>
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -106,8 +107,8 @@ const OrderDetailsConfermation = ({
             </HStack>
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -133,8 +134,8 @@ const OrderDetailsConfermation = ({
             </HStack>
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -160,8 +161,8 @@ const OrderDetailsConfermation = ({
             </HStack>
             <HStack
               alignItems="center"
-              m={2}
-              space={4}
+              m={0.5}
+              space={2}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Badge
@@ -188,9 +189,10 @@ const OrderDetailsConfermation = ({
           </Modal.Body>
           <Modal.Footer>
             <Button
+              colorScheme="Blue"
               flex="1"
               onPress={() => {
-                handleOrder();
+                handleOrder(phoneNumber);
                 setModal(!modal);
               }}>
               Confirm

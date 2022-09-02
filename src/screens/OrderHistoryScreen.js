@@ -6,12 +6,10 @@ import SchelatonPackage from '../components/SchelatonPackage';
 import {useFetchHooks} from '../customHooks/useFetchHooks';
 
 const OrderHistoryScreen = () => {
-  const navigation = useNavigation();
-
   const {data, loading, error} = useFetchHooks(
-    'https://78f6-103-35-168-194.in.ngrok.io/packages',
+    'https://78f6-103-35-168-194.in.ngrok.io/orders',
   );
-  console.log(data);
+  // console.log(data);
   if (error) {
     console.log(error);
   }

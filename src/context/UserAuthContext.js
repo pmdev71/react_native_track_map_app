@@ -16,7 +16,6 @@ export const UserAuthContextProvider = ({children}) => {
     const handleAsyncStorage = async () => {
       const token = await AsyncStorage.getItem('token');
       const user = JSON.parse(await AsyncStorage.getItem('user'));
-      // console.log('Token is :', token);
       console.log('User is :', user);
       setTextToken(token);
       setUser(user);

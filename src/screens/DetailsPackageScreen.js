@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Box,
   Heading,
@@ -17,17 +17,63 @@ import {
   InputLeftAddon,
 } from 'native-base';
 import OrderDetailsConfermation from '../components/OrderDetailsConfermation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+//import {UserAuthContext} from '../context/UserAuthContext';
 
 const DetailsPackageScreen = ({route, navigation}) => {
+  //const {textToken, user} = useContext(UserAuthContext);
   const packageInfo = route.params.packageInfo;
+  const [user, setUser] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const {
+    _id,
+    name,
+    regulaPrice,
+    discountPrice,
+    operator,
+    area,
+    operatorImageThumb,
+    operatorImageBanner,
+  } = packageInfo;
+
   useEffect(() => {
+    const handleAsyncStorage = async () => {
+      const user = JSON.parse(await AsyncStorage.getItem('user'));
+      setUser(user);
+    };
+    handleAsyncStorage();
+
     setModalVisible(modalVisible);
   }, [modalVisible]);
 
-  const handleOrder = () => {
+  const handleOrder = phoneNumber => {
+    fetch('https://78f6-103-35-168-194.in.ngrok.io/orders', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user.user._id,
+        userEmail: user.user.email,
+        productId: _id,
+        productName: name,
+        productDiscountPrice: discountPrice,
+        productRegularPrice: regulaPrice,
+        productLocation: area,
+        productValidity: '30 Days',
+        productOperator: operator,
+        productImage: operatorImageThumb,
+        receverPhone: phoneNumber,
+        paymentStatus: 'Paid',
+        orderStatus: 'Pending',
+      }),
+    });
+
     //handle order here
+    console.log('packageInfo', packageInfo);
+
     navigation.navigate('OrderHistoryScreen');
   };
   return (
@@ -188,7 +234,7 @@ const DetailsPackageScreen = ({route, navigation}) => {
                 onPress={() => setModalVisible(!modalVisible)}>
                 Order Now
               </Button>
-              {modalVisible && (
+              {modalVisible && phoneNumber.length > 10 && (
                 <OrderDetailsConfermation
                   packageInfo={packageInfo}
                   phoneNumber={phoneNumber}

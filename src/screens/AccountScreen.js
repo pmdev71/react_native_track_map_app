@@ -102,12 +102,7 @@ const AccountScreen = () => {
       <Text>ID: {user.user._id} </Text>
       <Text>Member Since: {user.user.createdAt} </Text>
       <Text>Token : {textToken} </Text>
-      <Button
-        onPress={logoutHandler}
-        title="Logout"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
+      <Button onPress={logoutHandler} title="Logout" color="red" />
     </View>
   );
 };
