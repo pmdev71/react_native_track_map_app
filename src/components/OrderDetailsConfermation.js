@@ -189,7 +189,7 @@ const OrderDetailsConfermation = ({
           </Modal.Body>
           <Modal.Footer>
             <Button
-              colorScheme="Blue"
+              colorScheme="darkBlue"
               flex="1"
               onPress={() => {
                 handleOrder(phoneNumber);

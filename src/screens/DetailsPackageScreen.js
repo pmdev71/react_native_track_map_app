@@ -18,10 +18,9 @@ import {
 } from 'native-base';
 import OrderDetailsConfermation from '../components/OrderDetailsConfermation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import {UserAuthContext} from '../context/UserAuthContext';
+import {baseUrl} from '../api/baseApi';
 
 const DetailsPackageScreen = ({route, navigation}) => {
-  //const {textToken, user} = useContext(UserAuthContext);
   const packageInfo = route.params.packageInfo;
   const [user, setUser] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -47,8 +46,9 @@ const DetailsPackageScreen = ({route, navigation}) => {
     setModalVisible(modalVisible);
   }, [modalVisible]);
 
+  //handle order here
   const handleOrder = phoneNumber => {
-    fetch('https://78f6-103-35-168-194.in.ngrok.io/orders', {
+    fetch(`${baseUrl}/orders`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -71,17 +71,11 @@ const DetailsPackageScreen = ({route, navigation}) => {
       }),
     });
 
-    //handle order here
-    console.log('packageInfo', packageInfo);
-
     navigation.navigate('OrderHistoryScreen');
   };
   return (
     <>
       <ScrollView>
-        {/* // <Text> Package ID:{packageInfo._id}</Text>
-        // <Text> Package Name:{packageInfo.name}</Text> */}
-
         <Box flex={1} alignItems="center" h="100%">
           <Box
             overflow="hidden"
@@ -187,18 +181,6 @@ const DetailsPackageScreen = ({route, navigation}) => {
                 this.
               </Text>
               <Box alignItems="center">
-                {/* <Input
-                mt="3"
-                w="85%"
-                h="10"
-                maxWidth="300px"
-                size="lg"
-                fontWeight="700"
-                maxLength={11}
-                keyboardType="numeric"
-                placeholder="Mobile Number [ only 11 digits ]"
-                onChangeText={e => setPhoneNumber(e)}
-              /> */}
                 <Box flex={1} w="75%">
                   <InputGroup
                     w={{
@@ -215,7 +197,6 @@ const DetailsPackageScreen = ({route, navigation}) => {
                       placeholder="Enter Number"
                       onChangeText={e => setPhoneNumber(e)}
                     />
-                    {/* <InputRightAddon children={'.io'} /> */}
                   </InputGroup>
                 </Box>
               </Box>

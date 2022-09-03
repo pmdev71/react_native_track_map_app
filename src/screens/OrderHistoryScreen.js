@@ -1,18 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Box, HStack, VStack, Text, Spacer, FlatList, Image} from 'native-base';
-
-import {useNavigation} from '@react-navigation/native';
 import SchelatonPackage from '../components/SchelatonPackage';
-import {useFetchHooks} from '../customHooks/useFetchHooks';
+import {UserAuthContext} from '../context/UserAuthContext';
+import {baseUrl} from '../api/baseApi';
 
 const OrderHistoryScreen = () => {
-  const {data, loading, error} = useFetchHooks(
-    'https://78f6-103-35-168-194.in.ngrok.io/orders',
-  );
-  // console.log(data);
-  if (error) {
-    console.log(error);
-  }
+  const {user} = useContext(UserAuthContext);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${baseUrl}/orders/${user.user._id}`)
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
 
   return (
     <Box flex={1}>

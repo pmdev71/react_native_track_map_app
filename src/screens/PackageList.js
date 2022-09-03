@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Box,
   HStack,
@@ -12,18 +12,38 @@ import {
 import {useFetchHooks} from '../customHooks/useFetchHooks';
 import SchelatonPackage from '../components/SchelatonPackage';
 import {useNavigation} from '@react-navigation/native';
+import {baseUrl} from '../api/baseApi';
+import {Alert, BackHandler} from 'react-native';
 
 const PackageList = () => {
   const navigation = useNavigation();
-
   // data from custom hook
-  const {data, loading, error} = useFetchHooks(
-    'https://78f6-103-35-168-194.in.ngrok.io/packages',
-  );
+  const {data, loading, error} = useFetchHooks(`${baseUrl}/packages`);
   console.log(data);
   if (error) {
     console.log(error);
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hello,', 'Are you sure you want exit from this app?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'YES', onPress: () => BackHandler.exitApp()},
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <Box flex={1}>

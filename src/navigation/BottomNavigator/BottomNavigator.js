@@ -5,8 +5,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 const Tab = createMaterialBottomTabNavigator();
 
 // import screens
-import TrackListScreen from '../../screens/TrackListScreen';
-import TrckCreateScreen from '../../screens/TrackCreateScreen';
+
 import AccountScreen from '../../screens/AccountScreen';
 import {UserAuthContextProvider} from '../../context/UserAuthContext';
 import PackageList from '../../screens/PackageList';

@@ -9,7 +9,6 @@ import {useNavigation} from '@react-navigation/native';
 const AccountScreen = () => {
   const navigation = useNavigation();
   const {textToken, user} = useContext(UserAuthContext);
-  //console.log('From Account Screen :', textToken);
 
   const logoutHandler = async () => {
     await AsyncStorage.clear();
