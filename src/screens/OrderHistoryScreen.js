@@ -3,11 +3,23 @@ import {Box, HStack, VStack, Text, Spacer, FlatList, Image} from 'native-base';
 import SchelatonPackage from '../components/SchelatonPackage';
 import {UserAuthContext} from '../context/UserAuthContext';
 import {baseUrl} from '../api/baseApi';
+import {RefreshControl} from 'react-native';
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 const OrderHistoryScreen = () => {
   const {user} = useContext(UserAuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     fetch(`${baseUrl}/orders/${user.user._id}`)
@@ -17,7 +29,7 @@ const OrderHistoryScreen = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error(error);
+        console.log(error);
       });
   });
 
@@ -33,7 +45,7 @@ const OrderHistoryScreen = () => {
           <SchelatonPackage />
           <SchelatonPackage />
         </Box>
-      ) : (
+      ) : data.length > 0 ? (
         <Box flex={1}>
           <FlatList
             data={data}
@@ -46,8 +58,8 @@ const OrderHistoryScreen = () => {
                 borderColor="coolGray.200"
                 pl="5"
                 pr="5"
-                py="2"
-                my="2">
+                py="1"
+                my="1">
                 <HStack space={4} justifyContent="space-between">
                   <Image
                     alt="operator"
@@ -66,12 +78,22 @@ const OrderHistoryScreen = () => {
                       bold>
                       {item.productName}
                     </Text>
+                    <Text fontWeight={500} color="coolGray.600">
+                      +880{item.receverPhone}
+                    </Text>
                     <Text
                       color="coolGray.600"
                       _dark={{
                         color: 'warmGray.200',
                       }}>
                       {item.createdAt}
+                    </Text>
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: 'warmGray.200',
+                      }}>
+                      ID: {item._id}
                     </Text>
                   </VStack>
                   <Spacer />
@@ -96,24 +118,21 @@ const OrderHistoryScreen = () => {
                       alignSelf="flex-start">
                       {item.orderStatus}
                     </Text>
-                    {/* <Button
-                      w="20"
-                      mt="2"
-                      colorScheme="indigo"
-                      size="sm"
-                      onPress={() =>
-                        navigation.navigate('DetailsPackageScreen', {
-                          packageInfo: item,
-                        })
-                      }>
-                      Details
-                    </Button> */}
                   </VStack>
                 </HStack>
               </Box>
             )}
             keyExtractor={item => item._id}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
+        </Box>
+      ) : (
+        <Box flex={1} justifyContent="center" alignItems="center">
+          <Text fontSize="lg" fontWeight="500">
+            No Order History
+          </Text>
         </Box>
       )}
     </Box>

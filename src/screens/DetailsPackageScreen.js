@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Box,
   Heading,
@@ -120,7 +120,7 @@ const DetailsPackageScreen = ({route, navigation}) => {
             </Box>
             <Stack p="4" space={3}>
               <Stack space={2}>
-                <Heading size="md" ml="-1">
+                <Heading size="md" ml="-1" py="1">
                   {packageInfo.name}
                 </Heading>
                 <HStack
@@ -211,6 +211,8 @@ const DetailsPackageScreen = ({route, navigation}) => {
               </HStack>
               <Button
                 mt="2"
+                width="90%"
+                alignSelf="center"
                 colorScheme="indigo"
                 onPress={() => setModalVisible(!modalVisible)}>
                 Order Now

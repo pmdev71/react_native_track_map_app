@@ -51,7 +51,10 @@ const StackNavigator = () => {
         <Stack.Screen
           name="DetailsPackageScreen"
           component={DetailsPackageScreen}
-          options={{headerShown: false}}
+          options={{
+            headerTitle: 'Details Package',
+            headerShown: true,
+          }}
         />
 
         <Stack.Screen
@@ -59,18 +62,6 @@ const StackNavigator = () => {
           component={BottomNavigator}
           options={{headerShown: false}}
         />
-
-        {/* <Stack.Screen
-          name="SigninScreen"
-          component={SigninScreen}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen
-          name="BottomNavigator"
-          component={BottomNavigator}
-          options={{headerShown: false}}
-        /> */}
 
         <Stack.Screen
           name="SignupScreen"

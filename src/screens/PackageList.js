@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Box,
   HStack,
@@ -9,20 +9,38 @@ import {
   Image,
   Button,
 } from 'native-base';
-import {useFetchHooks} from '../customHooks/useFetchHooks';
 import SchelatonPackage from '../components/SchelatonPackage';
 import {useNavigation} from '@react-navigation/native';
 import {baseUrl} from '../api/baseApi';
-import {Alert, BackHandler} from 'react-native';
+import {Alert, BackHandler, RefreshControl} from 'react-native';
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 const PackageList = () => {
   const navigation = useNavigation();
-  // data from custom hook
-  const {data, loading, error} = useFetchHooks(`${baseUrl}/packages`);
-  console.log(data);
-  if (error) {
-    console.log(error);
-  }
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${baseUrl}/packages`)
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  });
 
   useEffect(() => {
     const backAction = () => {
@@ -126,6 +144,9 @@ const PackageList = () => {
               </Box>
             )}
             keyExtractor={item => item._id}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </Box>
       )}

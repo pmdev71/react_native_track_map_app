@@ -19,42 +19,45 @@ export default function HomeScreen() {
           name="PackageList"
           component={PackageList}
           options={{
+            title: 'Packages',
             tabBarIcon: () => (
               <IconMaterialCommunityIcons
                 name="view-list"
-                color="white"
+                color="red"
                 size={22}
               />
             ),
-            tabBarColor: 'blue',
+            tabBarColor: 'black',
           }}
         />
         <Tab.Screen
           name="OrderHistoryScreen"
           component={OrderHistoryScreen}
           options={{
+            title: 'Order History',
             tabBarIcon: () => (
               <IconMaterialCommunityIcons
-                name="map-marker-plus-outline"
-                color="white"
+                name="history"
+                color="red"
                 size={22}
               />
             ),
-            tabBarColor: 'purple',
+            tabBarColor: 'black',
           }}
         />
         <Tab.Screen
           name="AccountScreen"
           component={AccountScreen}
           options={{
+            title: 'Account',
             tabBarIcon: () => (
               <IconMaterialCommunityIcons
                 name="account"
-                color="white"
+                color="red"
                 size={22}
               />
             ),
-            tabBarColor: 'green',
+            tabBarColor: 'black',
           }}
         />
       </Tab.Navigator>
